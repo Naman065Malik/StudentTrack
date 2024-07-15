@@ -1,15 +1,14 @@
 package com.example.StudentTrack.Service;
 
-import java.util.Map;
+import java.util.List;
+import java.util.Optional;
 
 import com.example.StudentTrack.Model.Student;
 
 public interface StudentService {
-    Map<Long, Student> getAllStudent();
+    List<Student> getAllStudent();
     Student getStudentById(Long id);
-    Student createStudent(Long id, Student student);
+    Student createStudent(Student student);
     Student updateStudent(Long id, Student student);
     boolean deleteStudent(Long id);
-    boolean checkIDExist(Long id);
-
 }

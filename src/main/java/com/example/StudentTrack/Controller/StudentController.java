@@ -1,6 +1,7 @@
 package com.example.StudentTrack.Controller;
 
-import java.util.Map;
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,46 +25,35 @@ public class StudentController {
     private StudentService studentService;
 
     @GetMapping("/Student")
-    public ResponseEntity<Map<Long, Student>> getAllStudent(){
-        Map<Long, Student> response = studentService.getAllStudent();
+    public ResponseEntity<List<Student>> getAllStudent(){
+    	List<Student> response = studentService.getAllStudent();
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
-    @PostMapping("/Student")
-    public ResponseEntity<String> createStudent(@RequestBody Student student) {
-        if(studentService.checkIDExist(student.getId()))
-            return new ResponseEntity<>("Student already exists", HttpStatus.CONFLICT);
+   @PostMapping("/Student")
+   public ResponseEntity<String> createStudent(@RequestBody Student student) {
+       studentService.createStudent(student);
+       return new ResponseEntity<>("Student added to the database", HttpStatus.CREATED);
+   }
 
-        studentService.createStudent(student.getId(), student);
-        return new ResponseEntity<>("Student added to the database", HttpStatus.CREATED);
-    }
+   @GetMapping("/Student/{id}")
+   public ResponseEntity<?> getStudentById(@PathVariable Long id) {
+       Student response = studentService.getStudentById(id);
+       if(response == null){
+           return new ResponseEntity<>("Student Not Found",HttpStatus.NOT_FOUND);
+       }
+       return new ResponseEntity<>(response,HttpStatus.OK);
+   }
 
-    @GetMapping("/Student/{id}")
-    public ResponseEntity<?> getStudentById(@PathVariable Long id) {
-        Student response = studentService.getStudentById(id);
-        if(response == null){
-            return new ResponseEntity<>("Student Not Found",HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(response,HttpStatus.OK);
-    }
+   @PutMapping("/Student/{id}")
+   public ResponseEntity<?> putUpdateStudent(@PathVariable Long id, @RequestBody Student student) {    
+       Student response = studentService.updateStudent(id, student);
+       return new ResponseEntity<>(response,HttpStatus.OK);
+   }
 
-    @PutMapping("/Student/{id}")
-    public ResponseEntity<?> putUpdateStudent(@PathVariable Long id, @RequestBody Student student) {    
-        
-        if(!studentService.checkIDExist(id))
-            return new ResponseEntity<>("Student Not Found", HttpStatus.NOT_FOUND);
-
-        Student response = studentService.updateStudent(id, student);
-        return new ResponseEntity<>(response,HttpStatus.OK);
-    }
-
-    @DeleteMapping("/Student/{id}")
-    public ResponseEntity<?> deleteStudent(@PathVariable Long id){
-
-        if(!studentService.checkIDExist(id))
-            return new ResponseEntity<>("Student Not Found", HttpStatus.NOT_FOUND);
-
-        studentService.deleteStudent(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    } 
+   @DeleteMapping("/Student/{id}")
+   public ResponseEntity<?> deleteStudent(@PathVariable Long id){
+       studentService.deleteStudent(id);
+       return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+   } 
 }
