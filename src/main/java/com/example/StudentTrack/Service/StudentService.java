@@ -2,12 +2,12 @@ package com.example.StudentTrack.Service;
 
 import java.util.List;
 
-import com.example.StudentTrack.Model.Student;
+import com.example.StudentTrack.DTO.StudentDTO;
 
 public interface StudentService {
-    List<Student> getAllStudent();
-    Student getStudentById(Long id);
-    Student createStudent(Student student);
-    Student updateStudent(Long id, Student student);
+    List<StudentDTO> getAllStudent();
+    StudentDTO getStudentById(Long id);
+    StudentDTO createStudent(StudentDTO student);
+    StudentDTO updateStudent(Long id, StudentDTO student);
     boolean deleteStudent(Long id);
 }

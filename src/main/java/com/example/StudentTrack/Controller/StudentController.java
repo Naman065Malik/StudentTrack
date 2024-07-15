@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.StudentTrack.Model.Student;
+import com.example.StudentTrack.DTO.StudentDTO;
 import com.example.StudentTrack.Service.StudentService;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,20 +24,20 @@ public class StudentController {
     private StudentService studentService;
 
     @GetMapping("/Student")
-    public ResponseEntity<List<Student>> getAllStudent(){
-    	List<Student> response = studentService.getAllStudent();
+    public ResponseEntity<?> getAllStudent(){
+    	List<StudentDTO> response = studentService.getAllStudent();
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
    @PostMapping("/Student")
-   public ResponseEntity<String> createStudent(@RequestBody Student student) {
+   public ResponseEntity<String> createStudent(@RequestBody StudentDTO student) {
        studentService.createStudent(student);
        return new ResponseEntity<>("Student added to the database", HttpStatus.CREATED);
    }
 
    @GetMapping("/Student/{id}")
    public ResponseEntity<?> getStudentById(@PathVariable Long id) {
-       Student response = studentService.getStudentById(id);
+       StudentDTO response = studentService.getStudentById(id);
        if(response == null){
            return new ResponseEntity<>("Student Not Found",HttpStatus.NOT_FOUND);
        }
@@ -45,8 +45,8 @@ public class StudentController {
    }
 
    @PutMapping("/Student/{id}")
-   public ResponseEntity<?> putUpdateStudent(@PathVariable Long id, @RequestBody Student student) {    
-       Student response = studentService.updateStudent(id, student);
+   public ResponseEntity<?> putUpdateStudent(@PathVariable Long id, @RequestBody StudentDTO student) {    
+       StudentDTO response = studentService.updateStudent(id, student);
        return new ResponseEntity<>(response,HttpStatus.OK);
    }
 
