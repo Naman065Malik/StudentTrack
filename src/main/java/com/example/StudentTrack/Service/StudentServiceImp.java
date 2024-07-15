@@ -1,11 +1,7 @@
 package com.example.StudentTrack.Service;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.function.Supplier;
-
-import javax.imageio.IIOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
